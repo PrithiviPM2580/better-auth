@@ -7,7 +7,7 @@ const app: Express = express();
 
 const PORT = process.env.PORT || 8080;
 
-app.all("/api/v1/auth/*", toNodeHandler(auth));
+app.all("/api/v1/auth/{*any}", toNodeHandler(auth));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

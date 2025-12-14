@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    command: mongod --replSet rs0 --bind_ip_all
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    build:
+      context: ./
+    container_name: better-auth
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    environment:
+      DATABASE_URL: mongodb://mongodb:27017/better-auth?replicaSet=rs0
+      PORT: 3000
+
+volumes:
+  mongo-data:
